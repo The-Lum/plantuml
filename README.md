@@ -25,9 +25,6 @@ Generate UML diagrams from textual descriptions.
 [![CI](https://github.com/plantuml/plantuml/actions/workflows/ci.yml/badge.svg?color=chocolate)](https://github.com/plantuml/plantuml/actions/workflows/ci.yml)
 [![snapshot javadoc](https://img.shields.io/badge/javadoc-snapshot-chocolate.svg?logo=github)](https://plantuml.github.io/plantuml/)
 
-> [!IMPORTANT]
-> [PlantUML is **not** affected by the log4j vulnerability.](https://github.com/plantuml/plantuml/issues/826)
-
 ## ℹ️ About
 
 PlantUML is a component that allows you to create various UML diagrams through simple textual descriptions. From sequence diagrams to deployment diagrams and beyond, PlantUML provides an easy way to create visual representations of complex systems.
@@ -56,10 +53,13 @@ PlantUML is a component that allows you to create various UML diagrams through s
   - [SDL (Specification and Description Language)](http://plantuml.com/activity-diagram-beta#sdl)
   - [Ditaa diagram](http://plantuml.com/ditaa)
   - [Gantt diagram](http://plantuml.com/gantt-diagram)
+  - [Chronology diagram](http://plantuml.com/chronology-diagram)
   - [MindMap diagram](http://plantuml.com/mindmap-diagram)
   - [WBS (Work Breakdown Structure)](http://plantuml.com/wbs-diagram)
   - [Mathematical Notations (AsciiMath, JLaTeXMath)](http://plantuml.com/ascii-math)
-  - [IE/ER (Information Engineering/Entity Relationship)](http://plantuml.com/ie-diagram)
+  - Entity Relationship (ER) diagram
+    - [Information Engineering (IE) diagram](http://plantuml.com/ie-diagram)
+    - [Entity Relationship (ER) diagram (Chen's notation)](http://plantuml.com/er-diagram)
 
 ### 📣 Additional Features
 
@@ -71,6 +71,13 @@ PlantUML is a component that allows you to create various UML diagrams through s
 ### 📖 Learn More
 
 For a more detailed overview, visit [PlantUML Official Website](https://plantuml.com/).
+
+## 🛡 Security
+
+See [Security Policy](SECURITY.md) and [Security overview](https://github.com/plantuml/plantuml/security).
+
+> [!IMPORTANT]
+> [PlantUML is **not** affected by the log4j vulnerability.](https://github.com/plantuml/plantuml/issues/826)
 
 ## 🚀 Getting Started
 

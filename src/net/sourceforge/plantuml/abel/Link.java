@@ -148,6 +148,7 @@ public class Link extends WithLinkType implements Hideable, Removeable {
 		result.linkConstraint = this.linkConstraint;
 		result.stereotype = stereotype;
 		result.linkArg.setVisibilityModifier(this.linkArg.getVisibilityModifier());
+        result.linkArrow = linkArrow;
 		return result;
 	}
 
@@ -202,6 +203,14 @@ public class Link extends WithLinkType implements Hideable, Removeable {
 
 	public Entity getEntity2() {
 		return cl2;
+	}
+
+	public String getPortName1() {
+		return port1;
+	}
+	
+	public String getPortName2() {
+		return port2;
 	}
 
 	public EntityPort getEntityPort1(Bibliotekon bibliotekon) {

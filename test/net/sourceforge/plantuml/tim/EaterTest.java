@@ -31,7 +31,8 @@ class EaterTest {
         "'@startuml\n!$a={\"k\": \"exampleValue\"}\ntitle $a.k\na -> b\n@enduml\n'                       , exampleValue",
         "'@startuml\n!$a=[1, 2, 3]\ntitle xx $a[2] yy\na -> a\n'                                         , xx 3 yy",
         "'@startuml\ntitle\n!foreach $i in [1, 2, 3]\nxx $i yy\n!endfor\nendtitle\na -> a\n'             , xx 2 yy",
-        "'@startuml\ntitle\n!foreach $i in [\"a\", \"b\", \"c\"]\nxx $i yy\n!endfor\nendtitle\na -> a\n' , xx b yy",     
+        "'@startuml\ntitle\n!foreach $i in [\"a\", \"b\", \"c\"]\nxx $i yy\n!endfor\nendtitle\na -> a\n' , xx b yy",
+        "'@startuml\nstdlib\n@enduml', archimate",
 	})
 	void Test_EaterTest(String input, String expected) throws Exception {
 		assertRenderExpectedOutput(input, expected);
