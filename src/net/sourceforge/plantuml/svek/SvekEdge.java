@@ -40,18 +40,19 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import net.sourceforge.plantuml.StringUtils;
 import net.sourceforge.plantuml.abel.CucaNote;
 import net.sourceforge.plantuml.abel.Entity;
-import net.sourceforge.plantuml.abel.Hideable;
 import net.sourceforge.plantuml.abel.LeafType;
 import net.sourceforge.plantuml.abel.Link;
 import net.sourceforge.plantuml.abel.LinkArrow;
 import net.sourceforge.plantuml.abel.LinkStrategy;
 import net.sourceforge.plantuml.abel.NoteLinkStrategy;
+import net.sourceforge.plantuml.annotation.DuplicateCode;
+import net.sourceforge.plantuml.cruise.XAbstractEdge;
+import net.sourceforge.plantuml.cruise.XEdge;
 import net.sourceforge.plantuml.cucadiagram.EntityPort;
 import net.sourceforge.plantuml.decoration.LinkDecor;
 import net.sourceforge.plantuml.decoration.LinkMiddleDecor;
@@ -75,7 +76,6 @@ import net.sourceforge.plantuml.klimt.font.StringBounder;
 import net.sourceforge.plantuml.klimt.geom.BezierUtils;
 import net.sourceforge.plantuml.klimt.geom.HorizontalAlignment;
 import net.sourceforge.plantuml.klimt.geom.MagneticBorder;
-import net.sourceforge.plantuml.klimt.geom.Moveable;
 import net.sourceforge.plantuml.klimt.geom.PointAndAngle;
 import net.sourceforge.plantuml.klimt.geom.Positionable;
 import net.sourceforge.plantuml.klimt.geom.PositionableUtils;
@@ -98,7 +98,11 @@ import net.sourceforge.plantuml.skin.VisibilityModifier;
 import net.sourceforge.plantuml.skin.rose.Rose;
 import net.sourceforge.plantuml.stereo.Stereotype;
 import net.sourceforge.plantuml.style.ISkinParam;
+import net.sourceforge.plantuml.style.SName;
+import net.sourceforge.plantuml.style.Style;
 import net.sourceforge.plantuml.style.StyleBuilder;
+import net.sourceforge.plantuml.style.StyleSignature;
+import net.sourceforge.plantuml.style.StyleSignatureBasic;
 import net.sourceforge.plantuml.svek.extremity.Extremity;
 import net.sourceforge.plantuml.svek.extremity.ExtremityArrow;
 import net.sourceforge.plantuml.svek.extremity.ExtremityFactory;
@@ -110,13 +114,13 @@ import net.sourceforge.plantuml.utils.Direction;
 import net.sourceforge.plantuml.utils.Log;
 import net.sourceforge.plantuml.utils.Position;
 
-public class SvekLine implements Moveable, Hideable, GuideLine {
+@DuplicateCode(reference = "SvekEdge, CucaDiagramFileMakerElk, CucaDiagramFileMakerSmetana")
+public class SvekEdge extends XAbstractEdge implements XEdge, UDrawable {
 
 	private static final XDimension2D CONSTRAINT_SPOT = new XDimension2D(10, 10);
 
 	private final Cluster ltail;
 	private final Cluster lhead;
-	private final Link link;
 
 	private final EntityPort startUid;
 	private final EntityPort endUid;
@@ -132,7 +136,6 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 	private final int endHeadColor;
 
 	private final StringBounder stringBounder;
-	private final Bibliotekon bibliotekon;
 
 	private DotPath dotPath;
 	private DotPath dotPathInit;
@@ -155,11 +158,8 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 	private final boolean useRankSame;
 	private final UStroke defaultThickness;
 	private HColor arrowLollipopColor;
-	private final ISkinParam skinParam;
 
 	private final double labelShield;
-
-	private final UmlDiagramType type;
 
 	@Override
 	public String toString() {
@@ -194,14 +194,14 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		return end.getX() > start.getX() ? Direction.RIGHT : Direction.LEFT;
 	}
 
-	public double getArrowDirection2() {
+	public double getArrowDirectionInRadian() {
 		if (getLinkArrow() == LinkArrow.BACKWARD)
-			return Math.PI + getArrowDirectionInternal2();
+			return Math.PI + getArrowDirectionInRadianInternal();
 
-		return getArrowDirectionInternal2();
+		return getArrowDirectionInRadianInternal();
 	}
 
-	private double getArrowDirectionInternal2() {
+	private double getArrowDirectionInRadianInternal() {
 		if (isAutolink()) {
 			final double startAngle = dotPath.getStartAngle();
 			return startAngle;
@@ -220,9 +220,9 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		throw new IllegalArgumentException();
 	}
 
-	public SvekLine(Link link, ColorSequence colorSequence, ISkinParam skinParam, StringBounder stringBounder,
+	public SvekEdge(Link link, ColorSequence colorSequence, ISkinParam skinParam, StringBounder stringBounder,
 			FontConfiguration font, Bibliotekon bibliotekon, Pragma pragma, GraphvizVersion graphvizVersion) {
-
+		super(link, skinParam, bibliotekon);
 		// ::comment when __CORE__
 		if (graphvizVersion.useShieldForQuantifier() && link.getLinkArg().getQuantifier1() != null)
 			link.getEntity1().ensureMargins(Margins.uniform(16));
@@ -239,10 +239,6 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 			this.kal2 = new Kal(this, link.getLinkArg().getKal2(), font, skinParam, (Entity) link.getEntity2(), link,
 					stringBounder);
 
-		this.type = skinParam.getUmlDiagramType();
-		this.link = Objects.requireNonNull(link);
-		this.skinParam = skinParam;
-		// this.umlType = link.getUmlDiagramType();
 		this.useRankSame = skinParam.useRankSame();
 		this.startUid = link.getEntityPort1(bibliotekon);
 		this.endUid = link.getEntityPort2(bibliotekon);
@@ -266,7 +262,6 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 			this.arrowLollipopColor = backgroundColor;
 
 		this.pragma = pragma;
-		this.bibliotekon = bibliotekon;
 		this.stringBounder = stringBounder;
 		this.ltail = ltail;
 		this.lhead = lhead;
@@ -283,7 +278,7 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 				labelOnly = StringWithArrow.addMagicArrow(labelOnly, this, font);
 
 		} else {
-			final HorizontalAlignment alignment = getMessageTextAlignment(type, skinParam);
+			final HorizontalAlignment alignment = getMessageTextAlignment(diagramType(), skinParam);
 			final boolean hasSeveralGuideLines = link.getLabel().hasSeveralGuideLines();
 			final TextBlock block;
 			if (hasSeveralGuideLines)
@@ -757,6 +752,14 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		return bibliotekon.getNode(link.getEntity1());
 	}
 
+	private Cluster getSvekCluster1() {
+		return bibliotekon.getCluster(link.getEntity1());
+	}
+
+	private Cluster getSvekCluster2() {
+		return bibliotekon.getCluster(link.getEntity2());
+	}
+
 	private boolean isOpalisable() {
 		return dotPath.getBeziers().size() <= 1;
 	}
@@ -770,7 +773,22 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 
 	}
 
-	public void drawU(UGraphic ug, Set<String> ids, UStroke suggestedStroke, Rainbow rainbow) {
+	private StyleSignature getDefaultStyleDefinition(Stereotype stereotype) {
+		final StyleSignature result = StyleSignatureBasic.of(SName.root, SName.element, diagramType().getStyleName(),
+				SName.arrow);
+
+		return result.withTOBECHANGED(stereotype);
+	}
+
+	private Set<String> ids;
+
+	public void setSharedIds(Set<String> ids) {
+		this.ids = ids;
+	}
+
+	@DuplicateCode(reference = "MyElkPath")
+	public void drawU(UGraphic ug) {
+
 		if (opale)
 			return;
 
@@ -805,7 +823,12 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		x += dx;
 		y += dy;
 
-		// Warning: duplicated from SmetanaPath and SvekLine
+		final StyleBuilder currentStyleBuilder = this.getCurrentStyleBuilder();
+		final Style styleLine = getDefaultStyleDefinition(this.getStereotype()).getMergedStyle(currentStyleBuilder);
+		final UStroke suggestedStroke = styleLine.getStroke();
+		final Rainbow rainbow = Rainbow.build(styleLine, this.skinParam.getIHtmlColorSet());
+
+		// Warning: duplicated from SmetanaPath and SvekEdge
 
 		HColor arrowHeadColor = rainbow.getArrowHeadColor();
 		HColor color = rainbow.getColor();
@@ -839,20 +862,26 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		UTranslate magneticForce1 = UTranslate.none();
 		if (getSvekNode1() != null) {
 			final MagneticBorder magneticBorder1 = getSvekNode1().getMagneticBorder();
-			magneticForce1 = magneticBorder1.getForceAt(ug.getStringBounder(), todraw.getStartPoint());
+			magneticForce1 = magneticBorder1.getForceAt(ug.getStringBounder(), todraw.getStartPoint().move(dx, dy));
+			todraw.moveStartPoint(magneticForce1);
+		} else if (getSvekCluster1() != null) {
+			final MagneticBorder magneticBorder1 = getSvekCluster1().getMagneticBorder();
+			magneticForce1 = magneticBorder1.getForceAt(ug.getStringBounder(), todraw.getStartPoint().move(dx, dy));
 			todraw.moveStartPoint(magneticForce1);
 		}
 
 		UTranslate magneticForce2 = UTranslate.none();
 		if (getSvekNode2() != null) {
 			final MagneticBorder magneticBorder2 = getSvekNode2().getMagneticBorder();
-			magneticForce2 = magneticBorder2.getForceAt(ug.getStringBounder(), todraw.getEndPoint());
+			magneticForce2 = magneticBorder2.getForceAt(ug.getStringBounder(), todraw.getEndPoint().move(dx, dy));
+			todraw.moveEndPoint(magneticForce2);
+		} else if (getSvekCluster2() != null) {
+			final MagneticBorder magneticBorder2 = getSvekCluster2().getMagneticBorder();
+			magneticForce2 = magneticBorder2.getForceAt(ug.getStringBounder(), todraw.getEndPoint().move(dx, dy));
 			todraw.moveEndPoint(magneticForce2);
 		}
 
-		final String comment = link.idCommentForSvg();
-		final String tmp = uniq(ids, comment);
-		todraw.setCommentAndCodeLine(tmp, link.getCodeLine());
+		todraw.setCommentAndCodeLine(uniq(ids, link.idCommentForSvg()), link.getCodeLine());
 
 		drawRainbow(ug.apply(new UTranslate(x, y)), color, arrowHeadColor, todraw, link.getSupplementaryColors(),
 				stroke, magneticForce1, magneticForce2);
@@ -943,7 +972,6 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 			changed = ids.add(candidate);
 			if (changed)
 				return candidate;
-
 			i++;
 		}
 	}
@@ -1079,14 +1107,14 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		return dist < (dim.getWidth() / 2 + 2) || dist < (dim.getHeight() / 2 + 2);
 	}
 
-	public void moveSvek(double deltaX, double deltaY) {
+	public void moveDelta(double deltaX, double deltaY) {
 		this.dx += deltaX;
 		this.dy += deltaY;
 	}
 
 	public final DotPath getDotPath() {
 		final DotPath result = dotPath.copy();
-		result.moveSvek(dx, dy);
+		result.moveDelta(dx, dy);
 		return result;
 	}
 
@@ -1125,7 +1153,7 @@ public class SvekLine implements Moveable, Hideable, GuideLine {
 		return link.isHidden();
 	}
 
-	public boolean sameConnections(SvekLine other) {
+	public boolean sameConnections(SvekEdge other) {
 		return link.sameConnections(other.link);
 	}
 
