@@ -49,12 +49,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import net.atmp.CucaDiagram;
 import net.sourceforge.plantuml.abel.CucaNote;
 import net.sourceforge.plantuml.abel.Entity;
 import net.sourceforge.plantuml.abel.EntityPosition;
 import net.sourceforge.plantuml.abel.GroupType;
 import net.sourceforge.plantuml.abel.Together;
-import net.sourceforge.plantuml.cucadiagram.ICucaDiagram;
 import net.sourceforge.plantuml.decoration.symbol.USymbol;
 import net.sourceforge.plantuml.decoration.symbol.USymbols;
 import net.sourceforge.plantuml.dot.GraphvizVersion;
@@ -108,7 +108,7 @@ public class Cluster implements Moveable {
 	private final int colorNoteTop;
 	private final int colorNoteBottom;
 	private final ISkinParam skinParam;
-	protected final ICucaDiagram diagram;
+	protected final CucaDiagram diagram;
 
 	private ClusterHeader clusterHeader;
 
@@ -119,7 +119,7 @@ public class Cluster implements Moveable {
 
 	private RectangleArea rectangleArea;
 
-	public void moveSvek(double deltaX, double deltaY) {
+	public void moveDelta(double deltaX, double deltaY) {
 		if (this.xyNoteTop != null)
 			this.xyNoteTop = this.xyNoteTop.move(deltaX, deltaY);
 		if (this.xyNoteBottom != null)
@@ -140,12 +140,11 @@ public class Cluster implements Moveable {
 		return Collections.unmodifiableSet(result);
 	}
 
-	public Cluster(ICucaDiagram diagram, ColorSequence colorSequence, ISkinParam skinParam, Entity root) {
-		this(diagram, null, colorSequence, skinParam, root);
+	public Cluster(CucaDiagram diagram, ColorSequence colorSequence, Entity root) {
+		this(diagram, null, colorSequence, root);
 	}
 
-	private Cluster(ICucaDiagram diagram, Cluster parentCluster, ColorSequence colorSequence, ISkinParam skinParam,
-			Entity group) {
+	private Cluster(CucaDiagram diagram, Cluster parentCluster, ColorSequence colorSequence, Entity group) {
 		if (group == null)
 			throw new IllegalStateException();
 
@@ -157,7 +156,7 @@ public class Cluster implements Moveable {
 		this.colorTitle = colorSequence.getValue();
 		this.colorNoteTop = colorSequence.getValue();
 		this.colorNoteBottom = colorSequence.getValue();
-		this.skinParam = group.getColors().mute(skinParam);
+		this.skinParam = group.getColors().mute(diagram.getSkinParam());
 	}
 
 	@Override
@@ -186,7 +185,7 @@ public class Cluster implements Moveable {
 		return Collections.unmodifiableList(result);
 	}
 
-	private List<SvekNode> getNodesOrderedTop(Collection<SvekLine> lines) {
+	private List<SvekNode> getNodesOrderedTop(Collection<SvekEdge> lines) {
 		final List<SvekNode> firsts = new ArrayList<>();
 		final Map<String, SvekNode> shs = new HashMap<String, SvekNode>();
 
@@ -195,7 +194,7 @@ public class Cluster implements Moveable {
 			shs.put(node.getUid(), node);
 		}
 
-		for (SvekLine l : lines)
+		for (SvekEdge l : lines)
 			if (l.isInverted()) {
 				final SvekNode sh = shs.get(l.getStartUidPrefix());
 				if (sh != null && isNormalPosition(sh))
@@ -209,7 +208,7 @@ public class Cluster implements Moveable {
 		return sh.getEntityPosition() == EntityPosition.NORMAL;
 	}
 
-	private List<SvekNode> getNodesOrderedWithoutTop(Collection<SvekLine> lines) {
+	private List<SvekNode> getNodesOrderedWithoutTop(Collection<SvekEdge> lines) {
 		final List<SvekNode> all = new ArrayList<>(nodes);
 		final Map<String, SvekNode> shs = new HashMap<String, SvekNode>();
 
@@ -222,7 +221,7 @@ public class Cluster implements Moveable {
 			shs.put(sh.getUid(), sh);
 		}
 
-		for (SvekLine l : lines)
+		for (SvekEdge l : lines)
 			if (l.isInverted()) {
 				final SvekNode sh = shs.get(l.getStartUidPrefix());
 				if (sh != null)
@@ -236,9 +235,8 @@ public class Cluster implements Moveable {
 		return Collections.unmodifiableList(children);
 	}
 
-	public Cluster createChild(ClusterHeader clusterHeader, ColorSequence colorSequence, ISkinParam skinParam,
-			Entity g) {
-		final Cluster child = new Cluster(diagram, this, colorSequence, skinParam, g);
+	public Cluster createChild(ClusterHeader clusterHeader, ColorSequence colorSequence, Entity g) {
+		final Cluster child = new Cluster(diagram, this, colorSequence, g);
 		child.clusterHeader = clusterHeader;
 		this.children.add(child);
 		return child;
@@ -474,7 +472,7 @@ public class Cluster implements Moveable {
 	}
 
 	// ::comment when __CORE__
-	public boolean printCluster1(StringBuilder sb, Collection<SvekLine> lines, StringBounder stringBounder) {
+	public boolean printCluster1(StringBuilder sb, Collection<SvekEdge> lines, StringBounder stringBounder) {
 		final List<SvekNode> tmp = getNodesOrderedTop(lines);
 		if (tmp.size() == 0)
 			return false;
@@ -488,7 +486,7 @@ public class Cluster implements Moveable {
 	private int togetherCounter = 0;
 
 	private void printTogether(Together together, Collection<Together> otherTogethers, StringBuilder sb,
-			List<SvekNode> nodesOrderedWithoutTop, StringBounder stringBounder, Collection<SvekLine> lines,
+			List<SvekNode> nodesOrderedWithoutTop, StringBounder stringBounder, Collection<SvekEdge> lines,
 			DotMode dotMode, GraphvizVersion graphvizVersion, UmlDiagramType type) {
 		sb.append("subgraph " + getClusterId() + "t" + togetherCounter + " {\n");
 		for (SvekNode node : nodesOrderedWithoutTop)
@@ -509,7 +507,7 @@ public class Cluster implements Moveable {
 
 	}
 
-	public SvekNode printCluster2(StringBuilder sb, Collection<SvekLine> lines, StringBounder stringBounder,
+	public SvekNode printCluster2(StringBuilder sb, Collection<SvekEdge> lines, StringBounder stringBounder,
 			DotMode dotMode, GraphvizVersion graphvizVersion, UmlDiagramType type) {
 
 		SvekNode added = null;
@@ -552,7 +550,7 @@ public class Cluster implements Moveable {
 		}
 	}
 
-	public void printCluster3_forKermor(StringBuilder sb, Collection<SvekLine> lines, StringBounder stringBounder,
+	public void printCluster3_forKermor(StringBuilder sb, Collection<SvekEdge> lines, StringBounder stringBounder,
 			DotMode dotMode, GraphvizVersion graphvizVersion, UmlDiagramType type) {
 		final List<SvekNode> tmp = getNodes(EntityPosition.getNormals());
 
@@ -568,12 +566,12 @@ public class Cluster implements Moveable {
 			child.printInternal(sb, lines, stringBounder, dotMode, graphvizVersion, type);
 	}
 
-	private void printInternal(StringBuilder sb, Collection<SvekLine> lines, StringBounder stringBounder,
+	private void printInternal(StringBuilder sb, Collection<SvekEdge> lines, StringBounder stringBounder,
 			DotMode dotMode, GraphvizVersion graphvizVersion, UmlDiagramType type) {
 		new ClusterDotString(this, skinParam).printInternal(sb, lines, stringBounder, dotMode, graphvizVersion, type);
 	}
 
-	private void appendRankSame(StringBuilder sb, Collection<SvekLine> lines) {
+	private void appendRankSame(StringBuilder sb, Collection<SvekEdge> lines) {
 		for (String same : getRankSame(lines)) {
 			sb.append(same);
 			SvekUtils.println(sb);
@@ -581,9 +579,9 @@ public class Cluster implements Moveable {
 	}
 	// ::done
 
-	private Set<String> getRankSame(Collection<SvekLine> lines) {
+	private Set<String> getRankSame(Collection<SvekEdge> lines) {
 		final Set<String> rankSame = new HashSet<>();
-		for (SvekLine l : lines) {
+		for (SvekEdge l : lines) {
 			if (l.hasEntryPoint())
 				continue;
 

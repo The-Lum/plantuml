@@ -51,7 +51,6 @@ import net.sourceforge.plantuml.klimt.shape.TextBlock;
 import net.sourceforge.plantuml.klimt.shape.UDrawable;
 import net.sourceforge.plantuml.klimt.shape.URectangle;
 import net.sourceforge.plantuml.style.ISkinParam;
-import net.sourceforge.plantuml.svek.extremity.Extremity;
 import net.sourceforge.plantuml.utils.Direction;
 
 public class Kal implements UDrawable {
@@ -60,7 +59,7 @@ public class Kal implements UDrawable {
 	private final Direction position;
 	private XDimension2D dim;
 	private UTranslate translate;
-	private final SvekLine svekLine;
+	private final SvekEdge SvekEdge;
 	private final Entity entity;
 	private final Link link;
 
@@ -79,9 +78,9 @@ public class Kal implements UDrawable {
 		}
 	}
 
-	public Kal(SvekLine svekLine, String text, FontConfiguration font, ISkinParam skinParam, Entity entity, Link link,
+	public Kal(SvekEdge SvekEdge, String text, FontConfiguration font, ISkinParam skinParam, Entity entity, Link link,
 			StringBounder stringBounder) {
-		this.svekLine = svekLine;
+		this.SvekEdge = SvekEdge;
 		this.entity = entity;
 		this.link = link;
 		this.textBlock = Display.getWithNewlines(text).create7(font, HorizontalAlignment.LEFT, skinParam,
@@ -187,7 +186,7 @@ public class Kal implements UDrawable {
 			return;
 		this.translate = this.translate.compose(UTranslate.dx(dx));
 		if (link.getEntity1() == entity)
-			svekLine.moveStartPoint(dx, 0);
+			SvekEdge.moveStartPoint(dx, 0);
 
 	}
 

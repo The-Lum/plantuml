@@ -5,12 +5,12 @@
  * (C) Copyright 2009-2024, Arnaud Roques
  *
  * Project Info:  https://plantuml.com
- * 
+ *
  * If you like this project or if you find it useful, you can support us at:
- * 
+ *
  * https://plantuml.com/patreon (only 1$ per month!)
  * https://plantuml.com/paypal
- * 
+ *
  * This file is part of PlantUML.
  *
  * PlantUML is free software; you can redistribute it and/or modify it
@@ -30,19 +30,32 @@
  *
  *
  * Original Author:  Arnaud Roques
- * 
+ *
  *
  */
-package net.sourceforge.plantuml.abel;
+package net.sourceforge.plantuml.cruise;
 
-import java.util.Collection;
+import java.util.Objects;
 
-import net.sourceforge.plantuml.stereo.Stereotype;
+import net.sourceforge.plantuml.abel.Link;
+import net.sourceforge.plantuml.skin.UmlDiagramType;
+import net.sourceforge.plantuml.style.ISkinParam;
+import net.sourceforge.plantuml.svek.Bibliotekon;
 
-public interface IEntityFactory {
+public abstract class XAbstractEdge implements XEdge {
 
-	public boolean isRemoved(Stereotype stereotype);
+	protected final Link link;
+	protected final ISkinParam skinParam;
+	protected final Bibliotekon bibliotekon;
 
-	public Collection<Entity> leafs();
+	protected XAbstractEdge(Link link, ISkinParam skinParam, Bibliotekon bibliotekon) {
+		this.link = Objects.requireNonNull(link);
+		this.skinParam = Objects.requireNonNull(skinParam);
+		this.bibliotekon = Objects.requireNonNull(bibliotekon);
+	}
+
+	protected final UmlDiagramType diagramType() {
+		return this.skinParam.getUmlDiagramType();
+	}
 
 }

@@ -39,10 +39,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import net.atmp.CucaDiagram;
 import net.sourceforge.plantuml.abel.Entity;
 import net.sourceforge.plantuml.abel.Link;
 import net.sourceforge.plantuml.annotation.DuplicateCode;
-import net.sourceforge.plantuml.cucadiagram.ICucaDiagram;
 import net.sourceforge.plantuml.decoration.LinkDecor;
 import net.sourceforge.plantuml.decoration.LinkType;
 
@@ -91,20 +91,20 @@ import net.sourceforge.plantuml.svek.IEntityImage;
 import net.sourceforge.plantuml.svek.extremity.ExtremityFactory;
 import net.sourceforge.plantuml.svek.extremity.ExtremityFactoryExtends;
 
-public class ElkPath implements UDrawable {
+public class MyElkEdge implements UDrawable {
 	// ::remove folder when __HAXE__
 
 	private final Link link;
 	private final ElkEdge edge;
 
-	private final ICucaDiagram diagram;
+	private final CucaDiagram diagram;
 	private final TextBlock centerLabel;
 	private final TextBlock headLabel;
 	private final TextBlock tailLabel;
 
 	private final SName styleName;
 
-	private final Map<Entity, ElkCluster> elkClusters;
+	private final Map<Entity, MyElkCluster> elkClusters;
 
 	private final Map<Entity, IEntityImage> nodeImages;
 
@@ -112,8 +112,8 @@ public class ElkPath implements UDrawable {
 
 	private final UTranslate translate;
 
-	public ElkPath(ICucaDiagram diagram, SName styleName, Link link, ElkEdge edge, TextBlock centerLabel,
-			TextBlock tailLabel, TextBlock headLabel, double magicY2, Map<Entity, ElkCluster> elkClusters,
+	public MyElkEdge(CucaDiagram diagram, SName styleName, Link link, ElkEdge edge, TextBlock centerLabel,
+			TextBlock tailLabel, TextBlock headLabel, double magicY2, Map<Entity, MyElkCluster> elkClusters,
 			UTranslate translate, Map<Entity, IEntityImage> nodeImages) {
 		this.link = link;
 		this.edge = edge;
@@ -137,7 +137,7 @@ public class ElkPath implements UDrawable {
 		return result.getMergedStyle(diagram.getSkinParam().getCurrentStyleBuilder());
 	}
 
-	@DuplicateCode(reference = "SvekLine")
+	@DuplicateCode(reference = "SvekEdge")
 	public void drawU(UGraphic ug) {
 
 		if (link.isHidden())
@@ -172,8 +172,8 @@ public class ElkPath implements UDrawable {
 		if (link.getColors() != null && link.getColors().getSpecificLineStroke() != null)
 			stroke = link.getColors().getSpecificLineStroke();
 
-		final ElkCluster elkCluster1 = elkClusters.get(link.getEntity1());
-		final ElkCluster elkCluster2 = elkClusters.get(link.getEntity2());
+		final MyElkCluster elkCluster1 = elkClusters.get(link.getEntity1());
+		final MyElkCluster elkCluster2 = elkClusters.get(link.getEntity2());
 		final IEntityImage elkNode1 = nodeImages.get(link.getEntity1());
 		final IEntityImage elkNode2 = nodeImages.get(link.getEntity2());
 		MagneticBorder magneticBorder1 = new MagneticBorderNone();
@@ -205,18 +205,17 @@ public class ElkPath implements UDrawable {
 		if (extremityFactory1 != null) {
 			final double x = sections.get(0).getEndX();
 			final double y = sections.get(0).getEndY();
-			extremityFactory1.drawU(ug.apply(stroke.onlyThickness()).apply(new UTranslate(x, y)));
+			final UTranslate force = magneticBorder2.getForceAt(ug.getStringBounder(), new XPoint2D(x, y));
+			extremityFactory1.drawU(ug.apply(stroke.onlyThickness()).apply(new UTranslate(x, y).compose(force)));
 		}
 
 		if (extremityFactory2 != null) {
 			final double x = sections.get(0).getStartX();
 			final double y = sections.get(0).getStartY();
-			extremityFactory2.drawU(ug.apply(stroke.onlyThickness()).apply(new UTranslate(x, y)));
+			final UTranslate force = magneticBorder1.getForceAt(ug.getStringBounder(), new XPoint2D(x, y));
+			extremityFactory2.drawU(ug.apply(stroke.onlyThickness()).apply(new UTranslate(x, y).compose(force)));
 		}
 
-		// ugOrig..remove thickness and line stroke (e.g. if arrow text is drawn with
-		// table)
-		// correct text color is missing
 		drawLabels(ugOrig);
 	}
 

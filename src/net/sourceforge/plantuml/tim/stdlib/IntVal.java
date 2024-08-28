@@ -63,9 +63,8 @@ public class IntVal extends SimpleReturnFunction {
 		final String s = values.get(0).toString();
 		try {
 			return TValue.fromInt(Integer.parseInt(s));
-		} catch (Exception e) {
-			Log.error("Cannot convert " + s);
+		} catch (NumberFormatException e) {
+			throw new EaterException("Cannot convert " + s + " to integer.", location);
 		}
-		return TValue.fromInt(0);
 	}
 }
