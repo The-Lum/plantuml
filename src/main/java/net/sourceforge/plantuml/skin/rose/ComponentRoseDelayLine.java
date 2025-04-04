@@ -37,7 +37,7 @@ package net.sourceforge.plantuml.skin.rose;
 
 import net.sourceforge.plantuml.klimt.UAntiAliasing;
 import net.sourceforge.plantuml.klimt.UTranslate;
-import net.sourceforge.plantuml.klimt.color.HColor;
+import net.sourceforge.plantuml.klimt.color.*;
 import net.sourceforge.plantuml.klimt.drawing.UGraphic;
 import net.sourceforge.plantuml.klimt.font.StringBounder;
 import net.sourceforge.plantuml.klimt.geom.XDimension2D;
@@ -53,7 +53,7 @@ public class ComponentRoseDelayLine extends AbstractComponent {
 
 	public ComponentRoseDelayLine(Style style, HColor color) {
 		super(style);
-		this.color = Hcolors.GREEN;
+		this.color = HColors.GREEN;
 	}
 
 	@Override
