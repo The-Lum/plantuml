@@ -22,7 +22,17 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
-alice->bob: this is a test
+scale 2
+<style>
+sequenceDiagram {
+    LineColor blue
+    LineThickness 2
+}
+</style>
+
+participant X
+...
+X -> X
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.

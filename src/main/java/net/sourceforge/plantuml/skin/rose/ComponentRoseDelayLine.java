@@ -53,7 +53,7 @@ public class ComponentRoseDelayLine extends AbstractComponent {
 
 	public ComponentRoseDelayLine(Style style, HColor color) {
 		super(style);
-		this.color = color;
+		this.color = Hcolors.GREEN;
 	}
 
 	@Override
