@@ -46,7 +46,7 @@ import net.sourceforge.plantuml.skin.AbstractComponent;
 import net.sourceforge.plantuml.skin.Area;
 import net.sourceforge.plantuml.skin.ArrowConfiguration;
 import net.sourceforge.plantuml.style.Style;
-import net.sourceforge.plantuml.style.Pname;
+import net.sourceforge.plantuml.style.PName;
 
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 
