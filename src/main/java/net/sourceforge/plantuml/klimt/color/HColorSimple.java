@@ -74,7 +74,7 @@ public class HColorSimple extends HColor {
 		if (color.getAlpha() == 255)
 			return StringUtils.sharp000000(color.getRGB());
 
-		return "#" + Integer.toHexString(color.getRGB());
+		return "#" + Integer.toHexString(color.getRGB()).toUpperCase();
 	}
 
 	@Override
