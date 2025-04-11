@@ -61,8 +61,8 @@ public abstract class AbstractComponent implements Component {
 	private final Style style;
 
 	public AbstractComponent(Style style) {
-    	//this(style, new SpriteContainerEmpty());
-		this(style, null);
+    	this(style, new SpriteContainerEmpty());
+		//this(style, null);
 	}
 
 	public AbstractComponent(Style style, ISkinSimple spriteContainer) {
@@ -71,7 +71,10 @@ public abstract class AbstractComponent implements Component {
 	}
 
 	protected HColorSet getIHtmlColorSet() {
-		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
+		if (spriteContainer instanceof ISkinParam) {
+			return ((ISkinParam) spriteContainer).getIHtmlColorSet();
+		}
+		throw new IllegalStateException("spriteContainer is not an instance of ISkinParam.");
 	}
 
 	protected final Style getStyle() {
