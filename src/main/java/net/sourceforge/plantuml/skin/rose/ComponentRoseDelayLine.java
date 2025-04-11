@@ -56,7 +56,7 @@ public class ComponentRoseDelayLine extends AbstractComponent {
 
 	public ComponentRoseDelayLine(Style style, HColor color) { // suprime color
 		super(style);
-		this.color = style.value(PName.LineColor).asColor(this.getIHtmlColorSet());
+		this.color = style.value(PName.LineColor).asColor(getIHtmlColorSet());
 	}
 
 	@Override
