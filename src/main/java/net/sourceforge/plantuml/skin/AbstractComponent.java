@@ -63,6 +63,10 @@ public abstract class AbstractComponent implements Component {
 		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
 	}
 
+	public AbstractComponent(Style style) {
+    	this(style, new SpriteContainerEmpty());
+	}
+
 	public AbstractComponent(Style style, ISkinSimple spriteContainer) {
 		this.style = style;
 		this.spriteContainer = spriteContainer;
