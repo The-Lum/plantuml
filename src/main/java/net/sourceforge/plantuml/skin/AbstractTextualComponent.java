@@ -60,7 +60,7 @@ public abstract class AbstractTextualComponent extends AbstractComponent {
 	private final int marginY;
 
 	private final TextBlock textBlock;
-	private final ISkinSimple spriteContainer;
+	//private final ISkinSimple spriteContainer;
 
 	private final UFont font;
 	private final HColor fontColor;
@@ -80,7 +80,9 @@ public abstract class AbstractTextualComponent extends AbstractComponent {
 	public AbstractTextualComponent(Style style, Style stereo, LineBreakStrategy maxMessageSize, int marginX1,
 			int marginX2, int marginY, ISkinSimple spriteContainer, Display display, boolean enhanced) {
 		super(style);
-		this.spriteContainer = spriteContainer;
+		//this.spriteContainer = spriteContainer;
+		super(spriteContainer);
+
 
 		final FontConfiguration fc = style.getFontConfiguration(getIHtmlColorSet());
 		this.font = style.getUFont();
@@ -103,10 +105,6 @@ public abstract class AbstractTextualComponent extends AbstractComponent {
 					fontForStereotype, htmlColorForStereotype, marginX1, marginX2);
 
 		this.alignment = horizontalAlignment;
-	}
-
-	protected HColorSet getIHtmlColorSet() {
-		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
 	}
 
 	protected TextBlock getTextBlock() {
@@ -147,10 +145,6 @@ public abstract class AbstractTextualComponent extends AbstractComponent {
 
 	protected HColor getFontColor() {
 		return fontColor;
-	}
-
-	protected final ISkinSimple getISkinSimple() {
-		return spriteContainer;
 	}
 
 	public final HorizontalAlignment getHorizontalAlignment() {

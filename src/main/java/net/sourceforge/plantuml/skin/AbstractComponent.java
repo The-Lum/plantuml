@@ -52,7 +52,12 @@ public abstract class AbstractComponent implements Component {
 		throw new UnsupportedOperationException();
 	}
 
+	private final ISkinSimple spriteContainer;
 	private final Style style;
+
+	protected HColorSet getIHtmlColorSet() {
+		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
+	}
 
 	public AbstractComponent(Style style) {
 		this.style = style;
@@ -60,6 +65,10 @@ public abstract class AbstractComponent implements Component {
 
 	protected final Style getStyle() {
 		return style;
+	}
+
+	protected final ISkinSimple getISkinSimple() {
+		return spriteContainer;
 	}
 
 	abstract protected void drawInternalU(UGraphic ug, Area area);
