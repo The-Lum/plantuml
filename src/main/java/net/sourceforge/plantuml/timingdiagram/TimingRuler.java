@@ -67,7 +67,7 @@ public class TimingRuler {
 	private final ISkinParam skinParam;
 
 	private long tickIntervalInPixels = 50;
-	private long tickUnitary;
+	private long forcedTickUnitary;
 
 	private TimingFormat format = TimingFormat.DECIMAL;
 
@@ -95,35 +95,51 @@ public class TimingRuler {
 		if (pixel <= 0 || tick <= 0)
 			throw new IllegalArgumentException();
 		this.tickIntervalInPixels = pixel;
-		this.tickUnitary = tick;
+		this.forcedTickUnitary = tick;
 	}
 
-	private long tickUnitary() {
-		if (tickUnitary == 0)
-			return highestCommonFactor();
+	private long getOptimalTickUnit() {
+		if (forcedTickUnitary == 0) {
+			final long hcfTickUnit = calculateHighestCommonFactor();
+			final double maxDiagramWidth = 4000.0;
+			if (hcfTickUnit == 1 && calculateDiagramWidth(hcfTickUnit) > maxDiagramWidth) {
+				/*
+				 * Typically, we determine the optimal tick unit using the highest common factor
+				 * (HCF) of all significant timing values. However, when the HCF is too small
+				 * (e.g., equal to 1), the resulting diagram becomes excessively wide. In such
+				 * cases, we fall back to an approximate tick unit calculation based on the
+				 * diagram's pixel width and the total time range, ensuring the diagram remains
+				 * clear and readable.
+				 */
+				final double totalTimeRange = getMax().getTime().doubleValue() - getMin().getTime().doubleValue();
+				return Math.round(1 + (tickIntervalInPixels * totalTimeRange / maxDiagramWidth));
+			}
+			return hcfTickUnit;
+		}
+		return forcedTickUnitary;
+	}
 
-		return tickUnitary;
+	public double getWidth() {
+		if (times.size() == 0)
+			return 100;
+		return calculateDiagramWidth(getOptimalTickUnit());
+	}
 
+	private double calculateDiagramWidth(final long tickUnitary) {
+		final double delta = getMax().getTime().doubleValue() - getMin().getTime().doubleValue();
+		return (delta / tickUnitary + 1) * tickIntervalInPixels;
 	}
 
 	private long highestCommonFactorInternal = -1;
 
-	private long highestCommonFactor() {
-		if (highestCommonFactorInternal == -1) {
-			for (long tick : getAbsolutesTicks()) {
-				if (highestCommonFactorInternal == -1) {
+	private long calculateHighestCommonFactor() {
+		if (highestCommonFactorInternal == -1)
+			for (long tick : getAbsolutesTicks())
+				if (highestCommonFactorInternal == -1)
 					highestCommonFactorInternal = tick;
-				} else {
-					final long candidate = computeHighestCommonFactor(highestCommonFactorInternal, tick);
-					final double size = (getMax().getTime().doubleValue() - getMin().getTime().doubleValue())
-							/ candidate;
-					if (size > 200)
-						return highestCommonFactorInternal;
+				else
+					highestCommonFactorInternal = computeHighestCommonFactor(highestCommonFactorInternal, tick);
 
-					highestCommonFactorInternal = candidate;
-				}
-			}
-		}
 		return highestCommonFactorInternal;
 	}
 
@@ -147,15 +163,7 @@ public class TimingRuler {
 			return 1;
 
 		final long delta = getMax().getTime().longValue() - getMin().getTime().longValue();
-		return Math.min(1000, (int) (1 + delta / tickUnitary()));
-	}
-
-	public double getWidth() {
-		if (times.size() == 0)
-			return 100;
-		final double delta = getMax().getTime().doubleValue() - getMin().getTime().doubleValue();
-
-		return (delta / tickUnitary() + 1) * tickIntervalInPixels;
+		return Math.min(1000, (int) (1 + delta / getOptimalTickUnit()));
 	}
 
 	public final double getPosInPixel(TimeTick when) {
@@ -164,11 +172,7 @@ public class TimingRuler {
 
 	private double getPosInPixelInternal(double time) {
 		time -= getMin().getTime().doubleValue();
-		return time / tickUnitary() * tickIntervalInPixels;
-	}
-
-	private long tickToTime(int i) {
-		return tickUnitary * i + getMin().getTime().longValue();
+		return time / getOptimalTickUnit() * tickIntervalInPixels;
 	}
 
 	public void addTime(TimeTick time) {
@@ -276,7 +280,7 @@ public class TimingRuler {
 
 	private Collection<Long> roundValues() {
 		final SortedSet<Long> result = new TreeSet<>();
-		if (tickUnitary == 0) {
+		if (forcedTickUnitary == 0) {
 			for (TimeTick tick : times) {
 				final long round = tick.getTime().longValue();
 				result.add(round);
@@ -292,6 +296,10 @@ public class TimingRuler {
 			result.add(0L);
 
 		return result;
+	}
+
+	private long tickToTime(int i) {
+		return forcedTickUnitary * i + getMin().getTime().longValue();
 	}
 
 	public void drawVlines(UGraphic ug, double height) {
