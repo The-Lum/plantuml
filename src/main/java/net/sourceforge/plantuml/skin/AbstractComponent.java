@@ -60,17 +60,18 @@ public abstract class AbstractComponent implements Component {
 	private final ISkinSimple spriteContainer;
 	private final Style style;
 
-	protected HColorSet getIHtmlColorSet() {
-		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
-	}
-
 	public AbstractComponent(Style style) {
-    	this(style, new SpriteContainerEmpty());
+    	//this(style, new SpriteContainerEmpty());
+		this(style, null);
 	}
 
 	public AbstractComponent(Style style, ISkinSimple spriteContainer) {
 		this.style = style;
 		this.spriteContainer = spriteContainer;
+	}
+
+	protected HColorSet getIHtmlColorSet() {
+		return ((ISkinParam) spriteContainer).getIHtmlColorSet();
 	}
 
 	protected final Style getStyle() {
