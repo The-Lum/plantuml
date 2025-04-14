@@ -57,7 +57,7 @@ public class ComponentRoseQueue extends AbstractTextualComponent {
 	private final boolean head;
 
 	public ComponentRoseQueue(Style style, Style stereo, Display stringsToDisplay, boolean head,
-			ISkinSimple spriteContainer) {
+			ISkinParam spriteContainer) {
 		super(style, stereo, LineBreakStrategy.NONE, 3, 3, 0, spriteContainer, stringsToDisplay, false);
 
 		final Fashion biColor = style.getSymbolContext(getIHtmlColorSet());

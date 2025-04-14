@@ -59,7 +59,7 @@ public abstract class AbstractComponentRoseArrow extends AbstractTextualComponen
 	private final ArrowConfiguration arrowConfiguration;
 
 	public AbstractComponentRoseArrow(Style style, Display stringsToDisplay, ArrowConfiguration arrowConfiguration,
-			ISkinSimple spriteContainer, LineBreakStrategy maxMessageSize) {
+			ISkinParam spriteContainer, LineBreakStrategy maxMessageSize) {
 		super(style, maxMessageSize, 7, 7, 1, spriteContainer, stringsToDisplay, false);
 
 		this.foregroundColor = style.value(PName.LineColor).asColor(getIHtmlColorSet());

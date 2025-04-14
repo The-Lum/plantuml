@@ -45,7 +45,7 @@ import net.sourceforge.plantuml.klimt.geom.XDimension2D;
 import net.sourceforge.plantuml.klimt.shape.TextBlock;
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 import net.sourceforge.plantuml.skin.Area;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.Style;
 import net.sourceforge.plantuml.svek.Control;
 
@@ -55,7 +55,7 @@ public class ComponentRoseControl extends AbstractTextualComponent {
 	private final boolean head;
 
 	public ComponentRoseControl(Style style, Style stereo, Display stringsToDisplay, boolean head,
-			ISkinSimple spriteContainer) {
+			ISkinParam spriteContainer) {
 		super(style, stereo, LineBreakStrategy.NONE, 3, 3, 0, spriteContainer, stringsToDisplay, false);
 
 		final Fashion biColor = style.getSymbolContext(getIHtmlColorSet());

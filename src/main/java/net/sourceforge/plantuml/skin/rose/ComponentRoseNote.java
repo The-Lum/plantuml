@@ -48,7 +48,7 @@ import net.sourceforge.plantuml.klimt.font.StringBounder;
 import net.sourceforge.plantuml.klimt.geom.HorizontalAlignment;
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 import net.sourceforge.plantuml.skin.Area;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.PName;
 import net.sourceforge.plantuml.style.Style;
 import net.sourceforge.plantuml.svek.image.Opale;
@@ -63,7 +63,7 @@ final public class ComponentRoseNote extends AbstractTextualComponent implements
 	private final HorizontalAlignment position;
 
 	public ComponentRoseNote(Style style, Display strings, double paddingX, double paddingY,
-			ISkinSimple spriteContainer, HorizontalAlignment textAlignment, HorizontalAlignment position,
+			ISkinParam spriteContainer, HorizontalAlignment textAlignment, HorizontalAlignment position,
 			Colors colors) {
 		super(style, style.wrapWidth(), textAlignment == HorizontalAlignment.CENTER ? 15 : 6, 15, 5, spriteContainer,
 				strings, true);

@@ -43,7 +43,7 @@ import net.sourceforge.plantuml.klimt.font.StringBounder;
 import net.sourceforge.plantuml.klimt.shape.ULine;
 import net.sourceforge.plantuml.skin.AbstractComponent;
 import net.sourceforge.plantuml.skin.Area;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.PName;
 import net.sourceforge.plantuml.style.Style;
 
@@ -51,7 +51,7 @@ public class ComponentRoseDestroy extends AbstractComponent {
 
 	private final HColor foregroundColor;
 
-	public ComponentRoseDestroy(Style style, HColor foregroundColor, ISkinSimple spriteContainer) {
+	public ComponentRoseDestroy(Style style, HColor foregroundColor, ISkinParam spriteContainer) {
 		super(style, spriteContainer);
 		if (style != null)
 			this.foregroundColor = style.value(PName.LineColor).asColor(spriteContainer.getIHtmlColorSet());

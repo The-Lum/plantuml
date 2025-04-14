@@ -54,7 +54,7 @@ import net.sourceforge.plantuml.skin.ArrowDirection;
 import net.sourceforge.plantuml.skin.ArrowDressing;
 import net.sourceforge.plantuml.skin.ArrowHead;
 import net.sourceforge.plantuml.skin.ArrowPart;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.Style;
 
 public class ComponentRoseArrow extends AbstractComponentRoseArrow {
@@ -66,7 +66,7 @@ public class ComponentRoseArrow extends AbstractComponentRoseArrow {
 	private final int inclination2;
 
 	public ComponentRoseArrow(Style style, Display stringsToDisplay, ArrowConfiguration arrowConfiguration,
-			HorizontalAlignment messagePosition, ISkinSimple spriteContainer, LineBreakStrategy maxMessageSize,
+			HorizontalAlignment messagePosition, ISkinParam spriteContainer, LineBreakStrategy maxMessageSize,
 			boolean niceArrow, boolean belowForResponse) {
 		super(style, stringsToDisplay, arrowConfiguration, spriteContainer, maxMessageSize);
 		this.messagePosition = messagePosition;

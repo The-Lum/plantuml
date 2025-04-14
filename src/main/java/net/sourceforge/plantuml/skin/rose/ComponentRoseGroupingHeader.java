@@ -54,7 +54,7 @@ import net.sourceforge.plantuml.klimt.shape.TextBlock;
 import net.sourceforge.plantuml.klimt.shape.URectangle;
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 import net.sourceforge.plantuml.skin.Area;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.PName;
 import net.sourceforge.plantuml.style.Style;
 
@@ -71,7 +71,7 @@ public class ComponentRoseGroupingHeader extends AbstractTextualComponent {
 	private final double roundCorner;
 
 	public ComponentRoseGroupingHeader(boolean teoz, Style style, Style styleHeader, Display strings,
-			ISkinSimple spriteContainer) {
+			ISkinParam spriteContainer) {
 		super(styleHeader, LineBreakStrategy.NONE, 15, 30, 1, spriteContainer, strings.get(0));
 
 		this.roundCorner = style.value(PName.RoundCorner).asInt(false);
