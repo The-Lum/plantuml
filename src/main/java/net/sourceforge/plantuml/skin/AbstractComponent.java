@@ -57,7 +57,7 @@ public abstract class AbstractComponent implements Component {
 		throw new UnsupportedOperationException();
 	}
 
-	private final ISkinSimple spriteContainer;
+	private final ISkinParam spriteContainer;
 	private final Style style;
 
 	public AbstractComponent(Style style) {
@@ -65,7 +65,7 @@ public abstract class AbstractComponent implements Component {
 		//this(style, null);
 	}
 
-	public AbstractComponent(Style style, ISkinSimple spriteContainer) {
+	public AbstractComponent(Style style, ISkinParam spriteContainer) {
 		this.style = style;
 		this.spriteContainer = spriteContainer;
 	}

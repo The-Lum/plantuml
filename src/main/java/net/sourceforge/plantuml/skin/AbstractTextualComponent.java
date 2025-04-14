@@ -67,18 +67,18 @@ public abstract class AbstractTextualComponent extends AbstractComponent {
 	private final HorizontalAlignment alignment;
 
 	public AbstractTextualComponent(Style style, LineBreakStrategy maxMessageSize, int marginX1, int marginX2,
-			int marginY, ISkinSimple spriteContainer, CharSequence label) {
+			int marginY, ISkinParam spriteContainer, CharSequence label) {
 		this(style, style, maxMessageSize, marginX1, marginX2, marginY, spriteContainer,
 				Display.getWithNewlines(spriteContainer.getPragma(), label == null ? "" : label.toString()), false);
 	}
 
 	public AbstractTextualComponent(Style style, LineBreakStrategy maxMessageSize, int marginX1, int marginX2,
-			int marginY, ISkinSimple spriteContainer, Display display, boolean enhanced) {
+			int marginY, ISkinParam spriteContainer, Display display, boolean enhanced) {
 		this(style, style, maxMessageSize, marginX1, marginX2, marginY, spriteContainer, display, enhanced);
 	}
 
 	public AbstractTextualComponent(Style style, Style stereo, LineBreakStrategy maxMessageSize, int marginX1,
-			int marginX2, int marginY, ISkinSimple spriteContainer, Display display, boolean enhanced) {
+			int marginX2, int marginY, ISkinParam spriteContainer, Display display, boolean enhanced) {
 		super(style, spriteContainer);
 		//this.spriteContainer = spriteContainer;
 
