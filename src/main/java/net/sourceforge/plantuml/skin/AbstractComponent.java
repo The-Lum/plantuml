@@ -41,7 +41,7 @@ import net.sourceforge.plantuml.klimt.drawing.UGraphic;
 import net.sourceforge.plantuml.klimt.font.StringBounder;
 import net.sourceforge.plantuml.klimt.geom.XDimension2D;
 import net.sourceforge.plantuml.klimt.sprite.SpriteContainerEmpty;
-import net.sourceforge.plantuml.skin.SkinParam;
+//import net.sourceforge.plantuml.skin.SkinParam;
 import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.ISkinSimple;
 import net.sourceforge.plantuml.style.Style;
@@ -61,10 +61,10 @@ public abstract class AbstractComponent implements Component {
 	private final ISkinParam spriteContainer;
 	private final Style style;
 
-	public AbstractComponent(Style style) {
-    	this(style, new skinParam());
+	//public AbstractComponent(Style style) {
+    	//this(style, new skinParam());
 		//this(style, null);
-	}
+	//}
 
 	public AbstractComponent(Style style, ISkinParam spriteContainer) {
 		this.style = style;

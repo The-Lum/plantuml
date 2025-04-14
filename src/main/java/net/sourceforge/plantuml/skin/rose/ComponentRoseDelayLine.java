@@ -45,8 +45,12 @@ import net.sourceforge.plantuml.klimt.shape.ULine;
 import net.sourceforge.plantuml.skin.AbstractComponent;
 import net.sourceforge.plantuml.skin.Area;
 import net.sourceforge.plantuml.skin.ArrowConfiguration;
-import net.sourceforge.plantuml.style.Style;
+
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.PName;
+import net.sourceforge.plantuml.style.Style;
+
+
 
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 
@@ -54,8 +58,8 @@ public class ComponentRoseDelayLine extends AbstractComponent {
 
 	private final HColor color;
 
-	public ComponentRoseDelayLine(Style style, HColor color) { // suprime color
-		super(style);
+	public ComponentRoseDelayLine(Style style, HColor color, ISkinParam skinParam) { // suprime color
+		super(style, skinParam);
 		this.color = style.value(PName.LineColor).asColor(getIHtmlColorSet());
 	}
 
