@@ -48,7 +48,7 @@ import net.sourceforge.plantuml.klimt.shape.TextBlock;
 import net.sourceforge.plantuml.klimt.shape.TextBlockUtils;
 import net.sourceforge.plantuml.skin.AbstractTextualComponent;
 import net.sourceforge.plantuml.skin.Area;
-import net.sourceforge.plantuml.style.ISkinSimple;
+import net.sourceforge.plantuml.style.ISkinParam;
 import net.sourceforge.plantuml.style.Style;
 
 public class ComponentRoseQueue extends AbstractTextualComponent {

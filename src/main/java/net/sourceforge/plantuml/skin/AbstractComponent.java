@@ -61,7 +61,7 @@ public abstract class AbstractComponent implements Component {
 	private final Style style;
 
 	public AbstractComponent(Style style) {
-    	this(style, new SpriteContainerEmpty());
+    	this(style, new skinParam());
 		//this(style, null);
 	}
 
