@@ -521,7 +521,7 @@ class DrawableSetInitializer {
 
 		if (lifeEvent.getType() == LifeEventType.DESTROY) {
 			final Component comp = drawableSet.getSkin().createComponent(new Style[] { 
-					ComponentType.DESTROY.getStyleSignature().getMergedStyle(skinParam.getCurrentStyleBuilder()) },
+					ComponentType.DESTROY.getStyleSignature().getMergedStyle(drawableSet.getSkinParam().getCurrentStyleBuilder()) },
 					ComponentType.DESTROY, null, drawableSet.getSkinParam(), null);
 			final double delta = comp.getPreferredHeight(stringBounder) / 2;
 			final LivingParticipantBox livingParticipantBox = drawableSet
