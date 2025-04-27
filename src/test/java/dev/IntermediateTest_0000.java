@@ -69,7 +69,7 @@ public class IntermediateTest_0000 {
 				Collections.<String>emptyList(), "UTF-8", options);
 		final List<GeneratedImage> list = reader.getGeneratedImages();
 
-		assertEquals(1, list.size());
+		assertEquals(2, list.size());
 
 	}
 
