@@ -22,16 +22,23 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
-scale 2
 <style>
 sequenceDiagram {
-    LineColor blue
-    LineThickness 2
+  LineColor blue
+  LineThickness 3
+    
+  destroy {
+    LineColor green
+  }
 }
 </style>
 
 participant X
 ...
+X -> X
+destroy Y
+...
+newpage 
 X -> X
 @enduml
 
