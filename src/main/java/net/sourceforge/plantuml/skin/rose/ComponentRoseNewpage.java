@@ -52,7 +52,8 @@ public class ComponentRoseNewpage extends AbstractComponent {
 
 	public ComponentRoseNewpage(Style style, HColor foregroundColor, ISkinParam skinParam) {
 		super(style, skinParam);
-		this.foregroundColor = foregroundColor;
+		//this.foregroundColor = foregroundColor;
+		this.foregroundColor = style.value(PName.LineColor).asColor(getIHtmlColorSet());
 	}
 
 	@Override
