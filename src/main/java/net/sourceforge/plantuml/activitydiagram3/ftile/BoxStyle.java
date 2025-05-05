@@ -176,10 +176,12 @@ public enum BoxStyle {
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
-			result.addPoint(width / 2 - DELTA_INPUT_OUTPUT, - height);
-			result.addPoint(width / 2 + DELTA_INPUT_OUTPUT, - height);
-			result.addPoint(width / 2 - DELTA_INPUT_OUTPUT, 0);
-			result.addPoint(width / 2 + DELTA_INPUT_OUTPUT, 0);
+			final double halfWidth = width / 2;
+			final double halfHeight = height / 2;
+			result.addPoint(halfWidth - halfHeight, 0);
+			result.addPoint(halfWidth + halfHeight, 0);
+			result.addPoint(halfWidth - halfHeight, height);
+			result.addPoint(halfWidth + halfHeight, height);
 			return result;
 		}
 	};
