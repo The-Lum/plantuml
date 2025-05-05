@@ -26,6 +26,7 @@ Here is a simple example:
 :object2; <<object>>
 :accept-event; <<acceptevent>>
 :object-signal; <<objectsignal>>
+:timeEvent; <<timeEvent>>
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
