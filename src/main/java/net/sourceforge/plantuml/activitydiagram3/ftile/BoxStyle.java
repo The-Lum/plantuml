@@ -146,6 +146,31 @@ public enum BoxStyle {
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			return URectangle.build(width, height);
 		}
+	},
+	UML_ACCEPT_EVENT("accept-event", '', 10) {
+		@Override
+		protected Shadowable getShape(double width, double height, double roundCorner) {
+			final UPolygon result = new UPolygon();
+			result.addPoint(0.0, 0.0);
+			result.addPoint(width, 0.0);
+			result.addPoint(width, height);
+			result.addPoint(0.0, height);
+			result.addPoint(DELTA_INPUT_OUTPUT, height / 2);
+			return result;
+		}
+	},
+	UML_OBJECT_SIGNAL("object-signal", '', 10) {
+		@Override
+		protected Shadowable getShape(double width, double height, double roundCorner) {
+			final UPolygon result = new UPolygon();
+			result.addPoint(0.0, 0.0);
+			result.addPoint(width, 0.0);
+			result.addPoint(width + DELTA_INPUT_OUTPUT, height / 2);
+			result.addPoint(width, height);
+			result.addPoint(0.0, height);
+			result.addPoint(DELTA_INPUT_OUTPUT, height / 2);
+			return result;
+		}
 	};
 
 	private final String stereotype;
