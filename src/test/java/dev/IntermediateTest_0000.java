@@ -24,8 +24,8 @@ Here is a simple example:
 @startuml
 :begin;
 :object2; <<object>>
-:accept-event; <<accept-event>>
-:object-signal; <<object-signal>>
+:accept-event; <<acceptevent>>
+:object-signal; <<objectsignal>>
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
