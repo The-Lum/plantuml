@@ -182,7 +182,7 @@ public enum BoxStyle {
 			result.addPoint(width / 2 + DELTA_INPUT_OUTPUT, 0);
 			return result;
 		}
-	},	
+	};
 
 	private final String stereotype;
 	private final char style;
