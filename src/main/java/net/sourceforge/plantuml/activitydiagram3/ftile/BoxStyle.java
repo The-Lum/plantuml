@@ -147,7 +147,7 @@ public enum BoxStyle {
 			return URectangle.build(width, height);
 		}
 	},
-	UML_ACCEPT_EVENT("accept-event", '', 10) {
+	UML_ACCEPT_EVENT("accept-event", '\0', 10) {
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
@@ -159,7 +159,7 @@ public enum BoxStyle {
 			return result;
 		}
 	},
-	UML_OBJECT_SIGNAL("object-signal", '', 10) {
+	UML_OBJECT_SIGNAL("object-signal", '\0', 10) {
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
