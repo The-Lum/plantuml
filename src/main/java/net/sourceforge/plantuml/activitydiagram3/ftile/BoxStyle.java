@@ -172,7 +172,7 @@ public enum BoxStyle {
 			return result;
 		}
 	},
-	UML_OBJECT_SIGNAL("timeEvent", '\0', 10) {
+	UML_TIME_EVENT("timeEvent", '\0', 10) {
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
