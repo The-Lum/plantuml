@@ -274,7 +274,7 @@ public enum BoxStyle {
 	}
 
 	// Shape: |=<
-	private Shadowable getShapeInput(double width, double height) {
+	private static Shadowable getShapeInput(double width, double height) {
 		final UPolygon result = new UPolygon();
 		result.addPoint(0, 0);
 		result.addPoint(width + DELTA_INPUT_OUTPUT, 0);
@@ -285,7 +285,7 @@ public enum BoxStyle {
 	}
 
 	// Shape: |=>
-	private Shadowable getShapeOutput(double width, double height) {
+	private static Shadowable getShapeOutput(double width, double height) {
 		final UPolygon result = new UPolygon();
 		result.addPoint(0.0, 0.0);
 		result.addPoint(width, 0.0);
