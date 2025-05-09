@@ -51,36 +51,28 @@ import net.sourceforge.plantuml.warning.Warning;
 // Created from Luc Trudeau original work
 public enum BoxStyle {
 	PLAIN(null, '\0', 0) {
+		// Shape: (=)
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			return URectangle.build(width, height).rounded(roundCorner);
 		}
 	},
 	SDL_INPUT("input", '<', 10) {
+		// Shape: |=<
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
-			final UPolygon result = new UPolygon();
-			result.addPoint(0, 0);
-			result.addPoint(width + DELTA_INPUT_OUTPUT, 0);
-			result.addPoint(width, height / 2);
-			result.addPoint(width + DELTA_INPUT_OUTPUT, height);
-			result.addPoint(0, height);
-			return result;
+			return getShapeInput(width, height);
 		}
 	},
 	SDL_OUTPUT("output", '>', 10) {
+		// Shape: |=>
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
-			final UPolygon result = new UPolygon();
-			result.addPoint(0.0, 0.0);
-			result.addPoint(width, 0.0);
-			result.addPoint(width + DELTA_INPUT_OUTPUT, height / 2);
-			result.addPoint(width, height);
-			result.addPoint(0.0, height);
-			return result;
+			return getShapeOutput(width, height);
 		}
 	},
 	SDL_PROCEDURE("procedure", '|', 0) {
+		// Shape: [|=|]
 		@Override
 		protected void drawInternal(UGraphic ug, double width, double height, double shadowing, double roundCorner) {
 			final URectangle rect = URectangle.build(width, height);
@@ -91,7 +83,8 @@ public enum BoxStyle {
 			ug.apply(UTranslate.dx(width - PADDING)).draw(vline);
 		}
 	},
-	SDL_SAVE("load", '\\', 0) {
+	SDL_LOAD("load", '\\', 0) {
+		// Shape: \=\
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
@@ -102,7 +95,8 @@ public enum BoxStyle {
 			return result;
 		}
 	},
-	SDL_ANTISAVE("save", '/', 0) {
+	SDL_SAVE("save", '/', 0) {
+		// Shape: /=/
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
@@ -114,6 +108,7 @@ public enum BoxStyle {
 		}
 	},
 	SDL_CONTINUOUS("continuous", '}', 0) {
+		// Shape: < >
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPath result = UPath.none();
@@ -136,30 +131,21 @@ public enum BoxStyle {
 		}
 	},
 	SDL_TASK("task", ']', 0) {
+		// Shape: [=]
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			return URectangle.build(width, height);
 		}
 	},
-	SDL_OBJECT("object", ']', 0) {
+	UML_OBJECT("object", ']', 0) {
+		// Shape: [=]
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			return URectangle.build(width, height);
-		}
-	},
-	UML_ACCEPT_EVENT("acceptEvent", '\0', 10) {
-		@Override
-		protected Shadowable getShape(double width, double height, double roundCorner) {
-			final UPolygon result = new UPolygon();
-			result.addPoint(- DELTA_INPUT_OUTPUT, 0.0);
-			result.addPoint(width, 0.0);
-			result.addPoint(width, height);
-			result.addPoint(- DELTA_INPUT_OUTPUT, height);
-			result.addPoint(0, height / 2);
-			return result;
 		}
 	},
 	UML_OBJECT_SIGNAL("objectSignal", '\0', 10) {
+		// Shape: >=>
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
@@ -172,7 +158,35 @@ public enum BoxStyle {
 			return result;
 		}
 	},
+	UML_TRIGGER("trigger", '\0', 10) {
+		// Shape: |=<
+		@Override
+		protected Shadowable getShape(double width, double height, double roundCorner) {
+			return getShapeInput(width, height);
+		}
+	},
+	UML_SEND_SIGNAL("sendSignal", '\0', 10) {
+		// Shape: |=>
+		@Override
+		protected Shadowable getShape(double width, double height, double roundCorner) {
+			return getShapeOutput(width, height);
+		}
+	},
+	UML_ACCEPT_EVENT("acceptEvent", '\0', 10) {
+		// Shape: >=|
+		@Override
+		protected Shadowable getShape(double width, double height, double roundCorner) {
+			final UPolygon result = new UPolygon();
+			result.addPoint(- DELTA_INPUT_OUTPUT, 0.0);
+			result.addPoint(width, 0.0);
+			result.addPoint(width, height);
+			result.addPoint(- DELTA_INPUT_OUTPUT, height);
+			result.addPoint(0, height / 2);
+			return result;
+		}
+	},
 	UML_TIME_EVENT("timeEvent", '\0', 10) {
+		// Shape: X
 		@Override
 		protected Shadowable getShape(double width, double height, double roundCorner) {
 			final UPolygon result = new UPolygon();
@@ -257,6 +271,28 @@ public enum BoxStyle {
 		if (stereotype == null)
 			return null;
 		return Stereotype.build("<<" + stereotype + ">>");
+	}
+
+	// Shape: |=<
+	private Shadowable getShapeInput(double width, double height) {
+		final UPolygon result = new UPolygon();
+		result.addPoint(0, 0);
+		result.addPoint(width + DELTA_INPUT_OUTPUT, 0);
+		result.addPoint(width, height / 2);
+		result.addPoint(width + DELTA_INPUT_OUTPUT, height);
+		result.addPoint(0, height);
+		return result;
+	}
+
+	// Shape: |=>
+	private Shadowable getShapeOutput(double width, double height) {
+		final UPolygon result = new UPolygon();
+		result.addPoint(0.0, 0.0);
+		result.addPoint(width, 0.0);
+		result.addPoint(width + DELTA_INPUT_OUTPUT, height / 2);
+		result.addPoint(width, height);
+		result.addPoint(0.0, height);
+		return result;
 	}
 
 }
