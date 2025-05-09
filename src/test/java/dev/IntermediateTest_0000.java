@@ -22,6 +22,9 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
+<style>
+root {Shadowing 5}
+</style>
 :begin;
 :SDL Shape;
 :input; <<input>>
