@@ -23,11 +23,22 @@ Here is a simple example:
 
 @startuml
 :begin;
+:SDL Shape;
+:input; <<input>>
+:output; <<output>>
+:procedure; <<procedure>>
+:load; <<load>>
+:save; <<save>>
+:continuous; <<continuous>>
+:task; <<task>>
 :object2; <<object>>
 :accept-event; <<acceptevent>>
 :object-signal; <<objectsignal>>
 :\t\t\ttimeEvent; <<timeEvent>>
 :a;
+:trigger; <<trigger>>
+:sendSignal; <<sendSignal>>
+:b;
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
