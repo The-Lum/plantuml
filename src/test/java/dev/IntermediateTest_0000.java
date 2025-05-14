@@ -22,26 +22,10 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
-<style>
-root {Shadowing 5}
-</style>
-:begin;
-:SDL Shape;
-:input; <<input>>
-:output; <<output>>
-:procedure; <<procedure>>
-:load; <<load>>
-:save; <<save>>
-:continuous; <<continuous>>
-:task; <<task>>
-:object2; <<object>>
-:accept-event; <<acceptevent>>
-:object-signal; <<objectsignal>>
 :\t\t\ttimeEvent; <<timeEvent>>
 :a;
-:trigger; <<trigger>>
-:sendSignal; <<sendSignal>>
-:b;
+:\t\t\ttimeEvent; <<timeEvent>>
+:a;
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
