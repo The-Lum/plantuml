@@ -25,7 +25,7 @@ RECTANGLE:
 LINE:
   pt1: [ 48.0000 ; 34.0000 ]
   pt2: [ 48.0000 ; 81.0000 ]
-  stroke: 5.0-5.0-0.5
+  stroke: 5.0-5.0-1.5
   shadow: 0
   color: ff181818
 
