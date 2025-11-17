@@ -98,6 +98,9 @@ public abstract class BoxStyle {
 	// Shape: X
 	public static final BoxStyle UML_TIME_EVENT = new BoxStyleTimeEvent("timeEvent", '\0', 10);
 
+	// Shape: ActorAwesome
+	public static final BoxStyle ACTOR_AWESOME = new BoxStyleActorAwesome("actorAwesome", '\0', 0);
+
 	/**
 	 * Represents the stereotype associated with the box style. This is used for
 	 * rendering and identifying the style uniquely.
@@ -537,6 +540,48 @@ class BoxStyleTimeEvent extends BoxStyle {
 		result.addPoint(halfWidth + thirdHeight, thirdHeight);
 		result.addPoint(halfWidth - thirdHeight, height);
 		result.addPoint(halfWidth + thirdHeight, height);
+		return result;
+	}
+	
+}
+
+
+class BoxStyleActorAwesome extends BoxStyle {
+
+	private final double headDiam = 32;
+	private final double bodyWidth = 54;
+	private final double shoulder = 16;
+	private final double collar = 4;
+	private final double radius = 8;
+	private final double bodyHeight = 28;
+
+	public BoxStyleActorAwesome(String stereotype, char style, double shield) {
+		super(stereotype, style, shield);
+	}
+
+	@Override
+	public void drawMe(UGraphic ug, double width, double height, double shadowing, double roundCorner) {
+		width -= getShield();
+		final Shadowable s = getShape(width, height, roundCorner);
+		s.setDeltaShadow(shadowing);
+		ug.draw(s);
+	}
+
+	protected Shadowable getShape(double width, double height, double roundCorner) {
+		final UPath result = UPath.none();
+		result.moveTo(0, collar);
+		result.cubicTo(collar, collar, bodyWidth / 2 - shoulder - collar, collar, bodyWidth / 2 - shoulder, 0);
+		result.cubicTo(bodyWidth / 2 - shoulder / 2, 0, bodyWidth / 2, shoulder / 2, bodyWidth / 2, shoulder);
+		result.lineTo(bodyWidth / 2, bodyHeight - radius);
+		result.cubicTo(bodyWidth / 2, bodyHeight - radius / 2, bodyWidth / 2 - radius / 2, bodyHeight, bodyWidth / 2
+				- radius, bodyHeight);
+		result.lineTo(-bodyWidth / 2 + radius, bodyHeight);
+		result.cubicTo(-bodyWidth / 2 + radius / 2, bodyHeight, -bodyWidth / 2, bodyHeight - radius / 2, -bodyWidth / 2,
+				bodyHeight - radius);
+		result.lineTo(-bodyWidth / 2, shoulder);
+		result.cubicTo(-bodyWidth / 2, shoulder / 2, -bodyWidth / 2 + shoulder / 2, 0, -bodyWidth / 2 + shoulder, 0);
+		result.cubicTo(-bodyWidth / 2 + shoulder + collar, collar, -collar, collar, 0, collar);
+		result.closePath();
 		return result;
 	}
 	
