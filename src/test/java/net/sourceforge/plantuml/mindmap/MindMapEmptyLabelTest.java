@@ -15,7 +15,7 @@ import net.sourceforge.plantuml.GeneratedImage;
 import net.sourceforge.plantuml.SourceFileReader;
 import net.sourceforge.plantuml.preproc.Defines;
 
-/*
+/**
  * Test for mindmap with empty labels
  * 
  * @startmindmap
