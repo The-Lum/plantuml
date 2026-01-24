@@ -22,7 +22,22 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
-alice->bob: this is a test
+robust R
+@0
+R is 0
+@1
+R is 1
+@2
+R is 0
+@3
+R is 1
+@4
+R is 0
+
+R@0 <-> @3 : {First label}
+R@1 <-> @2 : {Second label}
+R@2 <-> @3 : {Third label}
+R@2 <-> @5 : {Fourth label}
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.

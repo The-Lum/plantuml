@@ -107,8 +107,11 @@ public abstract class Panels implements TimeProjected {
 	}
 
 	protected final void drawConstraints(UGraphic ug) {
-		for (TimeConstraint constraint : getConstraints())
-			constraint.drawU(ug.apply(UTranslate.dy(getConstraintDeltaY(constraint))), ruler);
+		int i = 0;
+		for (TimeConstraint constraint : getConstraints()) {
+			i = i + 10;
+			constraint.drawU(ug.apply(UTranslate.dy(i + getConstraintDeltaY(constraint))), ruler);
+		}
 
 	}
 
