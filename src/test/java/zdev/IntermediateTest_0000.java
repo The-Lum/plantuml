@@ -23,21 +23,32 @@ Here is a simple example:
 
 @startuml
 robust R
+robust S
 @0
 R is 0
+S is 0
 @1
 R is 1
+S is 1
 @2
 R is 0
+S is 0
 @3
 R is 1
+S is 1
 @4
 R is 0
+S is 0
 
-R@0 <-> @3 : {First label}
-R@1 <-> @2 : {Second label}
-R@2 <-> @3 : {Third label}
-R@2 <-> @5 : {Fourth label}
+R@0 <-> @3 : 1️⃣
+R@1 <-> @2 : 2️⃣
+R@2 <-> @3 : 3️⃣
+R@2 <-> @5 : 4️⃣
+
+S@2 <-> @3 : 1️⃣
+S@0 <-> @3 : 2️⃣
+S@1 <-> @2 : 3️⃣
+S@2 <-> @5 : 4️⃣
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
