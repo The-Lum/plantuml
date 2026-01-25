@@ -107,12 +107,25 @@ public abstract class Panels implements TimeProjected {
 	}
 
 	protected final void drawConstraints(UGraphic ug) {
-		int i = 0;
-		for (TimeConstraint constraint : getConstraints()) {
-			constraint.drawU(ug.apply(UTranslate.dy(i + getConstraintDeltaY(constraint))), ruler);
-			i = i - 20;
+		boolean overlap = false;
+		int delta = 0;
+		final List<TimeConstraint> allConstraints = getConstraints();
+		for (int i = 0; i < allConstraints.size(); i++) {
+			TimeConstraint constraint = allConstraints.get(i);
+			boolean overlap = false;
+			for (int j = 0; j < i; j++) {
+				if (constraint.containsStrict(allConstraints.get(j))) { // changer avec un intersept
+					overlap = true;
+					delta = delta + 20; // mettre - quand heigth vers le haut
+				}
+			}
+			if (overlap) {
+				constraint.drawU(ug.apply(UTranslate.dy(delta)), ruler);
+			}
+			else {
+				constraint.drawU(ug.apply(UTranslate.dy(getConstraintDeltaY(constraint))), ruler);	
+			}
 		}
-
 	}
 
 	protected double getHeightForConstraints(StringBounder stringBounder) {
