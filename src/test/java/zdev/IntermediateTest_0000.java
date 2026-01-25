@@ -21,7 +21,8 @@ import net.sourceforge.plantuml.preproc.Defines;
 You can use this file to put a test you are working on.
 Here is a simple example:
 
-@startuml
+@startcreole
+{{
 analog "A" as A
 robust R
 analog "B" as B
@@ -55,7 +56,22 @@ S@2 <-> @3 : S1️⃣
 S@1 <-> @2 : S2️⃣
 S@0 <-> @3 : S3️⃣
 S@2 <-> @5 : S4️⃣
-@enduml
+}}
+{{
+scale 10 as 25 pixels
+concise C
+
+@C
+0 is A
+30 is B
+70 is C
+100 is {-}
+
+C@0<->@30 : Task A (30)
+C@0<->@70 : Task A+B (70)
+C@0<->@100 : Task A+B+C (100)
+}}
+@endcreole
 
 So you can edit this file, but please do not push any modification in the "main" branch.
 Put your own tests on your own branches.
