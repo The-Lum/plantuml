@@ -113,9 +113,10 @@ public abstract class Panels implements TimeProjected {
 			boolean overlap = false;
 			int delta = 0;
 			for (int j = 0; j < i; j++) {
-				if (constraint.getTick1().compareTo(allConstraints.get(j).getTick2()) < 0) {
+				if (constraint.getTick1().compareTo(allConstraints.get(j).getTick2()) < 0
+				&& constraint.getTick2().compareTo(allConstraints.get(j).getTick1()) > 0) {
 					overlap = true;
-					delta = delta - 20; // mettre - quand heigth vers le haut
+					delta = delta - 25; // mettre - quand heigth vers le haut
 				}
 			}
 			if (overlap) {
