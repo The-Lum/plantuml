@@ -107,14 +107,13 @@ public abstract class Panels implements TimeProjected {
 	}
 
 	protected final void drawConstraints(UGraphic ug) {
-		boolean overlap = false;
 		int delta = 0;
 		final List<TimeConstraint> allConstraints = getConstraints();
 		for (int i = 0; i < allConstraints.size(); i++) {
 			TimeConstraint constraint = allConstraints.get(i);
 			boolean overlap = false;
 			for (int j = 0; j < i; j++) {
-				if (constraint.containsStrict(allConstraints.get(j))) { // changer avec un intersept
+				if (constraint.getTick1().compareTo(allConstraints.get(j).getTick2()) < 0) {
 					overlap = true;
 					delta = delta + 20; // mettre - quand heigth vers le haut
 				}
