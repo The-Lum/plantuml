@@ -164,7 +164,9 @@ public class PanelsAnalog extends Panels {
 			final double y1 = getYpos(ug.getStringBounder(), lastValue);
 			final double y2 = getYpos(ug.getStringBounder(), ent.getValue());
 			final double x = ruler.getPosInPixel(ent.getKey());
-			ug.apply(new UTranslate(lastx, y1)).draw(new ULine(x - lastx, y2 - y1));
+			//ug.apply(new UTranslate(lastx, y1)).draw(new ULine(x - lastx, y2 - y1));
+			ug.apply(new UTranslate(lastx, y1)).draw(ULine.hline(x - lastx));
+			ug.apply(new UTranslate(x, y1)).draw(ULine.vline(y2 - y1));
 			lastx = x;
 			lastValue = ent.getValue();
 		}
