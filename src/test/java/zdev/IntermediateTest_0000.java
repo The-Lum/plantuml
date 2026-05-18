@@ -22,7 +22,10 @@ You can use this file to put a test you are working on.
 Here is a simple example:
 
 @startuml
-alice->bob: this is a test
+!option debug true
+- a
+:test_0; <<actorAwesome>>
+- b
 @enduml
 
 So you can edit this file, but please do not push any modification in the "main" branch.
@@ -37,7 +40,10 @@ public class IntermediateTest_0000 {
 	protected File getJavaFile() {
 		final String name = getClass().getName();
 		final File f = new File("src/test/java/" + name.replace('.', '/') + ".java");
+
 		return f;
+
+		
 	}
 
 	@Test

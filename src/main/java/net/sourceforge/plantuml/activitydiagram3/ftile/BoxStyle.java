@@ -45,6 +45,7 @@ import net.sourceforge.plantuml.klimt.UPath;
 import net.sourceforge.plantuml.klimt.UTranslate;
 import net.sourceforge.plantuml.klimt.drawing.UGraphic;
 import net.sourceforge.plantuml.klimt.geom.USegmentType;
+import net.sourceforge.plantuml.klimt.shape.UEllipse;
 import net.sourceforge.plantuml.klimt.shape.ULine;
 import net.sourceforge.plantuml.klimt.shape.UPolygon;
 import net.sourceforge.plantuml.klimt.shape.URectangle;
@@ -562,9 +563,18 @@ class BoxStyleActorAwesome extends BoxStyle {
 	@Override
 	public void drawMe(UGraphic ug, double width, double height, double shadowing, double roundCorner) {
 		width -= getShield();
+
+		final double centerX = bodyWidth / 2;
 		final Shadowable s = getShape(width, height, roundCorner);
 		s.setDeltaShadow(shadowing);
-		ug.draw(s);
+		
+		
+		final UEllipse head = UEllipse.build(headDiam, headDiam);
+		
+		ug.apply(new UTranslate(centerX - head.getWidth() / 2, 0)).draw(head);
+
+		ug.apply(new UTranslate(centerX, head.getHeight())).draw(s);
+
 	}
 
 	protected Shadowable getShape(double width, double height, double roundCorner) {
